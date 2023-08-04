@@ -1,0 +1,22 @@
+<a href="/workouts/new">Create new Workout</a>
+<br/><br/>
+<h2>Search Workouts</h2>
+<form action="/workouts" method="GET">
+<label>Name</label>
+<input type="text" name="name" value="<%= searchOptions.name %>">
+<button type="submit">Search</button>
+</form>
+<br/>
+<% workouts.forEach(workout => { %>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1px;">
+        <div style="padding: 5px; border: 1px solid #ccc; background-color: #f9f9f9;">
+            <%= workout.name %>
+        </div>
+        <div style="padding: 5px; border: 1px solid #ccc; background-color: #f9f9f9;">
+            <%= workout.type %>
+        </div>
+        <div style="padding: 5px; border: 1px solid #ccc; background-color: #f9f9f9;">
+            <%= workout.date %>
+        </div>
+    </div>
+    <% }) %>
