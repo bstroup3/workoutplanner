@@ -1,43 +1,44 @@
 const express = require("express")
 const router = express.Router()
 const Workout = require('../models/workout')
+
 //All workouts route
 router.get("/", async (req, res) => {
-    let searchOptions = {}
-    if(req.query.name != null && req.query.name !== ''){
-        searchOptions.name = new RegExp(req.query.name, 'i')
-    }
-    try {
-        const workouts = await Workout.find(searchOptions)
-        res.render("workouts/index", {
-            workouts: workouts,
-            searchOptions: req.query
-        })
-    } catch (error) {
-        res.redirect('/')
-    }
+    const workouts = await Workout.find()
+    res.json({workouts})
 })
 
-//New Workout Route
-router.get("/new", (req,res) => {
-    res.render("workouts/new", { workout: new Workout() })
+//delete workout route
+router.delete('/delete/:id', async (req,res) => {
+    const objectId = req.params.id
+    try{
+        deletedObj = await Workout.findByIdAndRemove(objectId)
+        console.log(deletedObj)
+        if (!deletedObj) {
+            return res.status(404).json({ error: 'Object not found' });
+        }
+        res.status(200).json({ message: 'Object deleted successfully' });
+    } catch(error){
+        console.error(error);
+        res.status(500).json({ error: 'Could not delete object' });
+    }
 })
 
 //Create Workout Route
 router.post('/', async (req, res) => {
-    const workout = new Workout({
-        name: req.body.name,
-        type: req.body.type,
-        date: new Date(Date.now()).toString().substring(0,24)
+    const { name, type, exercises, userId} = req.body
+    const workout = await new Workout({
+        userId: userId,
+        name: name,
+        type: type,
+        template: true,
+        date: new Date(Date.now()).toString().substring(0,24),
+        exercises: exercises
     })
     try {
         const newWorkout = await workout.save()
-        res.redirect(`workouts`)
     } catch (error) {
-        res.render('workouts/new', {
-            workout: workout,
-            errorMessage: 'Error creating Workout'
-        })
+        console.log(res)
     }
 })
 

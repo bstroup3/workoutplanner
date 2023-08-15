@@ -1,6 +1,24 @@
+<script>
+    let exerciseRows = []
+    const addRow = (e) => {
+        // Implement your addRow logic here
+        e.preventDefault()
+
+        exerciseRows.push({ id: exerciseRows.length + 1 })
+        console.log(exerciseRows)
+    }
+
+    function newDeleteRow(id) {
+        // Implement your newDeleteRow logic here
+    }
+</script>
+
 <label>Workout Name</label>
 <input type="text" name="name" value="<%= workout.name %>">
 <br/>
 <label>Workout Type</label>
 <input type="text" name="type" value="<%= workout.type %>">
 <br/>
+
+<br/><br/><br/>
+<button onclick="addRow(event)">Add Exercise</button>
