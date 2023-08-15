@@ -6,6 +6,7 @@ const express = require("express")
 const app = express()
 const expressLayouts = require("express-ejs-layouts")
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 const indexRouter = require("./routes/index")
 const workoutRouter = require("./routes/workouts")
@@ -22,7 +23,11 @@ app.use(express.static("public"))
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 app.use(express.static('/workout-planner/public'))
 app.use(express.json())
-app.use('cors')
+app.use(cors({
+    origin: ['https://bstroupworkoutplanner-0c964ef5e512.herokuapp.com/', 'http://localhost:3000'], // Replace with your allowed origins
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true, // Allow credentials (cookies, authentication headers, etc.)
+}));
 
 const mongoose = require("mongoose")
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
