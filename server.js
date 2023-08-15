@@ -22,6 +22,7 @@ app.use(express.static("public"))
 app.use(bodyParser.urlencoded({limit: '10mb', extended: false}))
 app.use(express.static('/workout-planner/public'))
 app.use(express.json())
+app.use('cors')
 
 const mongoose = require("mongoose")
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true })
